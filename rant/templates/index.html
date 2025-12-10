@@ -1,0 +1,26 @@
+<h1>This is Freedom Wall </h1>
+<h3>You can safely share your confessions and thoughts</h3>
+
+<br>
+<h3>Rants</h3>
+
+<form method='POST' action = '/'>
+    {% csrf_token %}
+<h4>Title:</h4>
+    {{rantform.title}}
+<h4>Your name (Optional):</h4>
+    {{rantform.poster}}
+<h4>Rant:</h4> 
+    {{rantform.content}}
+
+    <input class = "btn" type="submit" name="Submit rant">
+
+</form>
+
+{% for rant in rants %}
+    <p> {{rant.title}} </p>
+    <ul> by {{rant.poster}} </ul>
+    <ul> Submitted on {{rant.created}} </ul>
+    <ul> {{rant.content}} </ul>
+
+{% endfor %}
