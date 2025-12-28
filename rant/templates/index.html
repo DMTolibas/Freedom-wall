@@ -1,26 +1,138 @@
-<h1>This is Freedom Wall </h1>
-<h3>You can safely share your confessions and thoughts</h3>
+{% load static %}  
 
-<br>
-<h3>Rants</h3>
+<!--load static file-->
 
-<form method='POST' action = '/'>
-    {% csrf_token %}
-<h4>Title:</h4>
-    {{rantform.title}}
-<h4>Your name (Optional):</h4>
-    {{rantform.poster}}
-<h4>Rant:</h4> 
-    {{rantform.content}}
+<!DOCTYPE html>
+<html lang="en">
 
-    <input class = "btn" type="submit" name="Submit rant">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
 
-</form>
+        <title>Freedom Wall - A Safe Space for Everyone</title>
 
-{% for rant in rants %}
-    <p> {{rant.title}} </p>
-    <ul> by {{rant.poster}} </ul>
-    <ul> Submitted on {{rant.created}} </ul>
-    <ul> {{rant.content}} </ul>
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
 
-{% endfor %}
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href= "{% static 'css/styles.css'%}" rel="stylesheet" />
+    </head>
+
+    <body id="page-top">
+
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+            <div class="container px-4">
+                <a class="navbar-brand" href="#page-top">Freedom Wall</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'rule' %}">Rule</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Header-->
+        <header class="bg-primary bg-gradient text-white">
+            <div class="container px-4 text-center">
+                <h1 class="fw-bolder">Welcome to Freedom Wall</h1>
+                <p class="lead">This is a safe space for everyone. Feel free to share your thought with us. You can provide your name or post anonymouslyjudgement.</p>
+                <form method='POST' action = '/'>
+
+                        {% csrf_token %}
+                        <h5>Title:</h5>
+                            {{rantform.title}} <br> 
+                        <h5>Your name (Optional):</h5>
+                            {{rantform.poster}} <br> 
+                        <h5>Rant:</h5> 
+                            {{rantform.content}} <br> 
+                        <br>
+                            <button type="submit" class="btn btn-lg btn-light"
+                                style="color:black; font-size:24px; margin:15px; border-color:black;">
+                                Submit a post!
+                            </button>
+                    </form>
+            </div>
+        </header>
+
+
+        <!-- About section-->
+        <section id="submit_post">
+            <div class="container px-4">
+                <div class="row gx-4 justify-content-center">
+                    <div class="col-lg-8">
+
+                        <h2> Latest Rant </h2>
+                        <p class="lead"></p>
+
+                    </div>
+
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            
+                            {% if today_rant %}
+                                <h5 class="card-title">{{ today_rant.title}}</h5>
+                                <p class="card-text">{{ today_rant.content }}</p>
+                                <small class="text-muted">
+                                    Posted by {{ today_rant.poster }} on {{ today_rant.created|date:"F d, Y" }}
+                                </small>
+                            {% else %}
+                                <p class="text-muted">No rant posted yet.</p>
+                            {% endif %}
+                          </div>
+                    </div> 
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Services section-->
+        <section class="bg-light" id="services">
+            <div class="container px-4">
+                <div class="row gx-4 justify-content-center">
+                    <div class="col-lg-8">
+                        <h2>Posts</h2>
+                        <p class="lead">We listen. We do not judge.</p>
+                        <hr>
+                        {% for rant in rants %}
+                            <h5> {{rant.title}} </h5> 
+                            <ul> by {{rant.poster}}  <i style="color:grey; font-size:14px"> Submitted on {{rant.created}} </i> </ul>
+                            <ul> {{rant.content}} </ul>
+                             <hr>
+
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact section-->
+        <section id="contact">
+            <div class="container px-4">
+                <div class="row gx-4 justify-content-center">
+                    <div class="col-lg-8">
+                        <h2>Contact us</h2>
+                        <p class="lead">Email: freedomwalladmin@gmail.com</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Footer-->
+        <footer class="py-5 bg-dark">
+            <div class="container px-4"><p class="m-0 text-center text-white">Copyright &copy; Freedom Wall 2025</p></div>
+        </footer>
+
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+    </body>
+</html>
