@@ -4,7 +4,8 @@ from django.forms import ModelForm
 from .models import Rant
 
 class RantForm(forms.ModelForm):
-    content = forms.CharField(widget=forms.Textarea(attrs={'placeholder':'Type here...'}))
+    content = forms.CharField(widget=forms.Textarea(attrs={'placeholder':'Type here...'})) 
+    poster = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder':'Optional: default as Anonymous'}))
 
     class Meta:
         model = Rant

@@ -29,9 +29,17 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Log in</a></li>                        
                         <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'rule' %}">Rule</a></li>
                         <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link">{{request.user}}</a></li> <!--Show is currently log in-->
+
+                        {% if request.user.is_authenticated %}
+                            <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}"> Log out </a> </li>  <!--Show when the user is logged in-->
+                        {%endif%}
+
+
                     </ul>
                 </div>
             </div>
@@ -41,13 +49,13 @@
         <header class="bg-primary bg-gradient text-white">
             <div class="container px-4 text-center">
                 <h1 class="fw-bolder">Welcome to Freedom Wall</h1>
-                <p class="lead">This is a safe space for everyone. Feel free to share your thought with us. You can provide your name or post anonymouslyjudgement.</p>
+                <p class="lead">This is a safe space for everyone. Feel free to share your thought with us. You can provide your name or post anonymously.</p>
                 <form method='POST' action = '/'>
 
                         {% csrf_token %}
                         <h5>Title:</h5>
                             {{rantform.title}} <br> 
-                        <h5>Your name (Optional):</h5>
+                        <h5>Your name:</h5>
                             {{rantform.poster}} <br> 
                         <h5>Rant:</h5> 
                             {{rantform.content}} <br> 
@@ -101,8 +109,8 @@
                         <hr>
                         {% for rant in rants %}
                             <h5> {{rant.title}} </h5> 
-                            <ul> by {{rant.poster}}  <i style="color:grey; font-size:14px"> Submitted on {{rant.created}} </i> </ul>
-                            <ul> {{rant.content}} </ul>
+                            <small> by {{rant.poster}}  <i style="color:grey; font-size:14px"> Submitted on {{rant.created}} </i> </small>
+                            <p> {{rant.content}} </p>
                              <hr>
 
                         {% endfor %}

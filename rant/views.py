@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.utils.timezone import now
 
 from .models import Rant
 from .forms import RantForm
@@ -11,11 +10,8 @@ def index(request):
     form = RantForm()
 
     rants = Rant.objects.all()
-
-    """ Retrieve the latest rant """
-    today = now().date()
-
-    today_rant = Rant.objects.filter(created=today).order_by('-created').first() #order_by('-created').first means that in database, sort the data from newest to oldest. "-" means start at newest
+    '''Obtain the most recent rant'''
+    today_rant = Rant.objects.order_by('-created').first()  #this code obtain the latest obj. #order_by('-created').first means that in database, sort the data from newest to oldest. "-" means start at newest
 
     if request.method == 'POST':
 
@@ -37,5 +33,8 @@ def about(request):
 
 def rule(request):
     return render(request, "rule.html")
+
+def login(request):
+    return render(request, "login.html")   
 
  
