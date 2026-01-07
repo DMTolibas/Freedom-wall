@@ -37,6 +37,10 @@
 
                         {% if request.user.is_authenticated %}
                             <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}"> Log out </a> </li>  <!--Show when the user is logged in-->
+
+                        {% else %}
+                            <li class="nav-item"><a class="nav-link" href="{% url 'register' %}"> Register </a> </li>  <!--Show the register button-->
+                            
                         {%endif%}
 
 

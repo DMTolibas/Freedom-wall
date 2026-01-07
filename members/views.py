@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
 def login_user(request):
@@ -26,3 +27,26 @@ def logout_user(request):
     # show meesage and redirect when log out
     messages.success(request, ("There is an error. Try again!"))
     return redirect("home")
+
+def register_user(request):
+    #if user input in the field
+    if request.method == "POST":
+        #create a form using the submitted data
+        form = UserCreationForm(request.POST)
+        #check if form is valid (username is unique, pwd is strong, all req. field are filled)
+        if form.is_valid():
+            form.save()
+            #clean data
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            #check if the submitted data/user, already exist
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            messages.success(request, ("Registration Success!"))
+            return redirect("home")
+        else:
+            messages.error(request, ("Registration Unsuccessful! Try again!"))
+    else:
+        form = UserCreationForm()
+
+    return render(request, "authentication/register_user.html", {'form':form})
